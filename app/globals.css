@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+:root {
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  --gold-accent: #c5a059;
+  --gold-muted: rgba(197, 160, 89, 0.4);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+}
+
+body {
+  background-color: #09090b;
+  color: #ededed;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
+}
+
+/* Refined Minimalist Luxury Headings */
+.font-luxury {
+  font-family: "Cinzel", "Playfair Display", Georgia, serif;
+  letter-spacing: 0.04em;
+}
+
+/* Subtle Champagne Gold Accent Text */
+.gold-accent-text {
+  color: #c5a059;
+}
+
+.gold-gradient-text {
+  background: linear-gradient(180deg, #f5ebd2 0%, #d4af37 60%, #b38b32 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Clean, Minimalist Hairline Borders */
+.border-hairline {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.border-gold-hairline {
+  border: 1px solid rgba(197, 160, 89, 0.25);
+}
+
+/* Subtle, Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222226;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
+::selection {
+  background: #c5a059;
+  color: #000000;
+}
+
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+}

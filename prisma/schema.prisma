@@ -1,0 +1,168 @@
+// Prisma Schema for HEMLIFESTYLE (HEM Corporation pvt Ltd)
+// Configured for PostgreSQL / Supabase Integration
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  ADMIN
+  CUSTOMER
+}
+
+enum OrderStatus {
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  VERIFIED
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  DIRECT_BANK_TRANSFER
+  UPI_QR
+  CREDIT_DEBIT_CARD
+  CASH_ON_DELIVERY
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String
+  phone         String?
+  role          Role      @default(CUSTOMER)
+  passwordHash  String?
+  orders        Order[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([email])
+}
+
+model Product {
+  id               String      @id @default(uuid())
+  title            String
+  slug             String      @unique
+  price            Float
+  originalPrice    Float?
+  category         String      // Women's Leather Bags, Men's Leather Bags, Leather Jackets, Travel Bags, Handbags, Backpacks & Messenger
+  image            String
+  additionalImages String[]    @default([])
+  description      String
+  rating           Float       @default(4.9)
+  reviewCount      Int         @default(24)
+  inStock          Boolean     @default(true)
+  isFeatured       Boolean     @default(false)
+  badge            String?     // "Artisan Signature", "100% Full-Grain", "Bestseller"
+  material         String      @default("100% Certified Full-Grain Leather")
+  dimensions       String?
+  hardware         String?     @default("Solid Antique Brass")
+  warranty         String?     @default("5-Year Craftsmanship Warranty")
+  origin           String?     @default("Agra Atelier, India")
+  lining           String?     @default("Ultra-soft herringbone cotton canvas")
+  closure          String?     @default("Heavy-duty YKK Excella Brass Zippers")
+  weight           String?
+  orderItems       OrderItem[]
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  @@index([category])
+  @@index([isFeatured])
+}
+
+model Order {
+  id                  String         @id @default(uuid())
+  orderNumber         String         @unique
+  userId              String?
+  user                User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  customerName        String
+  customerEmail       String
+  customerPhone       String
+  address             String
+  city                String
+  state               String         @default("Uttar Pradesh")
+  postalCode          String
+  country             String         @default("India")
+  subtotal            Float
+  discount            Float          @default(0)
+  shipping            Float          @default(0)
+  tax                 Float          @default(0)
+  total               Float
+  status              OrderStatus    @default(CONFIRMED)
+  paymentMethod       PaymentMethod  @default(DIRECT_BANK_TRANSFER)
+  paymentStatus       PaymentStatus  @default(PENDING)
+  transactionUtr      String?
+  unboxingVideoAgreed Boolean        @default(true)
+  items               OrderItem[]
+  payments            Payment[]
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  @@index([orderNumber])
+  @@index([status])
+  @@index([customerEmail])
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  title     String
+  price     Float
+  quantity  Int      @default(1)
+  image     String
+  category  String?
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Payment {
+  id             String        @id @default(uuid())
+  orderId        String
+  order          Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  amount         Float
+  currency       String        @default("INR")
+  method         PaymentMethod
+  status         PaymentStatus @default(PENDING)
+  transactionUtr String?
+  pnbReference   String?
+  paymentGateway String?       @default("PNB_CURRENT_ACCOUNT")
+  rawResponse    String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([orderId])
+  @@index([status])
+}
+
+model Analytics {
+  id          String   @id @default(uuid())
+  eventType   String   // "PAGE_VIEW", "PRODUCT_VIEW", "CHECKOUT_INITIATED", "ORDER_COMPLETED"
+  path        String
+  referrer    String?
+  userAgent   String?
+  ipAddress   String?
+  sessionId   String?
+  metadata    String?  // JSON stringified extra details
+  timestamp   DateTime @default(now())
+
+  @@index([eventType])
+  @@index([timestamp])
+}
