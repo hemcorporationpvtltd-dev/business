@@ -164,32 +164,32 @@ export default function HomePage() {
             {
               category: "Women's Leather Bags",
               image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80",
-              count: categoryCounts["Women's Leather Bags"] || 2,
+              
             },
             {
               category: "Men's Leather Bags",
               image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80",
-              count: categoryCounts["Men's Leather Bags"] || 2,
+              
             },
             {
               category: "Leather Jackets",
               image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80",
-              count: categoryCounts["Leather Jackets"] || 2,
+             
             },
             {
               category: "Travel Bags",
               image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=600&q=80",
-              count: categoryCounts["Travel Bags"] || 2,
+             
             },
             {
               category: "Handbags",
               image: "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&w=600&q=80",
-              count: categoryCounts["Handbags"] || 2,
+             
             },
             {
               category: "Backpacks & Messenger",
               image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=600&q=80",
-              count: categoryCounts["Backpacks & Messenger"] || 2,
+              
             },
           ].map((cat) => (
             <button
@@ -208,9 +208,7 @@ export default function HomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
               <div className="absolute bottom-3 left-3 right-3">
-                <span className="text-[10px] text-amber-400 font-mono block">
-                  {cat.count} Pieces
-                </span>
+              
                 <h3 className="text-xs font-bold text-white font-serif group-hover:text-amber-300 transition-colors leading-tight">
                   {cat.category}
                 </h3>
