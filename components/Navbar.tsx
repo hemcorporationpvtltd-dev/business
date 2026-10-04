@@ -30,7 +30,7 @@ export default function Navbar() {
     { name: "Collection", href: "/#shop" },
     { name: "Categories", href: "/#categories" },
     { name: "About Atelier", href: "/about" },
-    { name: "Admin Portal", href: "/admin" },
+  
   ];
 
   const isLinkActive = (href: string) => {
