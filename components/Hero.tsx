@@ -52,7 +52,7 @@ export default function Hero() {
                   href="#shop"
                   className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-black font-bold text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/30 hover:scale-[1.02] group"
                 >
-                  <span>Explore Catalog</span>
+                  <span>Explore Catalogue</span>
                   <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                 </a>
 

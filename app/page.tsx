@@ -40,14 +40,10 @@ export default function HomePage() {
     }).catch(() => {});
   }, []);
 
-  // Calculate dynamic category counts
-  const categoryCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    products.forEach((p) => {
-      counts[p.category] = (counts[p.category] || 0) + 1;
-    });
-    return counts;
-  }, [products]);
+  // Empty category counts to prevent errors
+const categoryCounts = useMemo(() => {
+  return {};
+}, [products]);
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
@@ -274,7 +270,7 @@ export default function HomePage() {
           <CategoryFilter
             selectedCategory={selectedCategory}
             onSelectCategory={setSelectedCategory}
-            categoryCounts={categoryCounts}
+          categoryCounts={{}}
           />
         </div>
 
