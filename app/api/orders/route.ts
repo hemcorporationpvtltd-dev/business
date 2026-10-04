@@ -1,5 +1,5 @@
 import { Resend } from 'resend';
-const resend = new Resend(process.env.RESEND_API_KEY);
+
 export const dynamic = 'force-dynamic';
 import { NextResponse } from "next/server";
 import { dbStore } from "@/lib/store";
@@ -52,6 +52,7 @@ export async function POST(request: Request) {
       unboxingVideoAgreed: Boolean(body.unboxingVideoAgreed),
     });
 try {
+  const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
       from: 'Hemlifestyle <onboarding@resend.dev>',
       to: process.env.ADMIN_EMAIL!,
