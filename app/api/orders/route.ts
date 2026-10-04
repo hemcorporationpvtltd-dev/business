@@ -1,3 +1,5 @@
+import { Resend } from 'resend';
+const resend = new Resend(process.env.RESEND_API_KEY);
 export const dynamic = 'force-dynamic';
 import { NextResponse } from "next/server";
 import { dbStore } from "@/lib/store";
@@ -49,7 +51,22 @@ export async function POST(request: Request) {
       transactionUtr: body.transactionUtr,
       unboxingVideoAgreed: Boolean(body.unboxingVideoAgreed),
     });
-
+try {
+    await resend.emails.send({
+      from: 'Hemlifestyle <onboarding@resend.dev>',
+      to: process.env.ADMIN_EMAIL!,
+      subject: 'New Order Received! 🚀',
+      html: `
+        <h2>Naya Order Mila Hai!</h2>
+        <p><strong>Customer Name:</strong> ${body.customerName}</p>
+        <p><strong>Phone Number:</strong> ${body.customerPhone}</p>
+        <p><strong>Delivery Address:</strong> ${body.address}</p>
+        <p>Sari details check karne ke liye apna Admin Dashboard kholein.</p>
+      `,
+    });
+  } catch (emailError) {
+    console.error("Email bhejne mein error aayi:", emailError);
+  }
     return NextResponse.json({ success: true, order }, { status: 201 });
   } catch (error) {
     console.error("Error creating order:", error);
