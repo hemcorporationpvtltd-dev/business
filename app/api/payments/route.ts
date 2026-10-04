@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { NextResponse } from "next/server";
 import { COMPANY_DETAILS } from "@/lib/constants";
 import { dbStore } from "@/lib/store";
