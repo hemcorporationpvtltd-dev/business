@@ -16,70 +16,11 @@ declare global {
 }
 
 if (!global.__HEM_PRODUCTS__) {
-  global.__HEM_PRODUCTS__ = [...INITIAL_PRODUCTS];
+  global.__HEM_PRODUCTS__ = [];
 }
 
 if (!global.__HEM_ORDERS__) {
-  global.__HEM_ORDERS__ = [
-    {
-      id: "ord-1001",
-      orderNumber: "HL-2026-8901",
-      customerName: "Vikramaditya Rathore",
-      customerEmail: "vikram.rathore@example.com",
-      customerPhone: "+91 98290 11223",
-      address: "42, Civil Lines, Near Circuit House",
-      city: "Jaipur",
-      state: "Rajasthan",
-      postalCode: "302006",
-      items: [
-        {
-          product: INITIAL_PRODUCTS[2], // The Viceroy Briefcase
-          quantity: 1,
-        },
-      ],
-      subtotal: 18999,
-      discount: 0,
-      shipping: 0,
-      tax: 3419.82,
-      total: 18999,
-      status: "Processing",
-      paymentMethod: "Direct Bank Transfer",
-      paymentStatus: "Verified",
-      transactionUtr: "PNBN261003449812",
-      unboxingVideoAgreed: true,
-      createdAt: new Date(Date.now() - 3600000 * 5).toISOString(),
-      companyDetails: COMPANY_DETAILS,
-    },
-    {
-      id: "ord-1002",
-      orderNumber: "HL-2026-8902",
-      customerName: "Ananya Deshmukh",
-      customerEmail: "ananya.d@example.com",
-      customerPhone: "+91 97654 32109",
-      address: "Penthouse 14B, Hiranandani Gardens, Powai",
-      city: "Mumbai",
-      state: "Maharashtra",
-      postalCode: "400076",
-      items: [
-        {
-          product: INITIAL_PRODUCTS[0], // Royal Agra Tote
-          quantity: 1,
-        },
-      ],
-      subtotal: 14999,
-      discount: 0,
-      shipping: 0,
-      tax: 2699.82,
-      total: 14999,
-      status: "Shipped",
-      paymentMethod: "UPI / QR",
-      paymentStatus: "Paid",
-      transactionUtr: "UPI/328901844910",
-      unboxingVideoAgreed: true,
-      createdAt: new Date(Date.now() - 3600000 * 24).toISOString(),
-      companyDetails: COMPANY_DETAILS,
-    },
-  ];
+  global.__HEM_ORDERS__ = [];
 }
 
 if (typeof global.__HEM_VISITS__ === "undefined") {
@@ -325,3 +266,12 @@ export const dbStore = {
     };
   },
 };
+
+
+if (typeof global.__HEM_VISITS__ === "undefined") {
+  global.__HEM_VISITS__ = 0;
+}
+
+if (!global.__HEM_LOGS__) {
+  global.__HEM_LOGS__ = [];
+}
