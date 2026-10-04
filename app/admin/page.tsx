@@ -134,7 +134,7 @@ export default function AdminDashboardPage() {
     setIsModalOpen(true);
   };
 
-  const handleSubmitForm = (e: React.FormEvent) => {
+const handleSubmitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title || !formData.price || !formData.image) {
       alert("Please provide Title, Price, and Product Image URL.");
@@ -146,53 +146,51 @@ export default function AdminDashboardPage() {
       ? parseFloat(formData.originalPrice)
       : Math.round(priceNum * 1.25);
 
-    if (editingProduct) {
-      updateProduct(editingProduct.id, {
-        title: formData.title,
-        price: priceNum,
-        originalPrice: originalPriceNum,
-        category: formData.category,
-        image: formData.image,
-        description: formData.description,
-        badge: formData.badge,
-        inStock: formData.inStock,
-        isFeatured: formData.isFeatured,
-        details: {
-          material: formData.material,
-          dimensions: formData.dimensions,
-          hardware: formData.hardware,
-          warranty: formData.warranty,
-          origin: "Agra Atelier, Uttar Pradesh, India",
-        },
+    const productPayload = {
+      title: formData.title,
+      price: priceNum,
+      originalPrice: originalPriceNum,
+      category: formData.category,
+      image: formData.image,
+      description: formData.description,
+      badge: formData.badge,
+      inStock: formData.inStock,
+      isFeatured: formData.isFeatured,
+      details: {
+        material: formData.material,
+        dimensions: formData.dimensions,
+        hardware: formData.hardware,
+        warranty: formData.warranty,
+        origin: "Agra Atelier, Uttar Pradesh, India",
+      },
+    };
+
+    try {
+      const response = await fetch("/api/products", {
+        method: editingProduct ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(
+          editingProduct ? { id: editingProduct.id, ...productPayload } : productPayload
+        ),
       });
-      showNotification(`Updated "${formData.title}" in inventory.`);
-    } else {
-      addProduct({
-        title: formData.title,
-        price: priceNum,
-        originalPrice: originalPriceNum,
-        category: formData.category,
-        image: formData.image,
-        description: formData.description,
-        badge: formData.badge,
-        inStock: formData.inStock,
-        isFeatured: formData.isFeatured,
-        rating: 5.0,
-        reviewCount: 1,
-        details: {
-          material: formData.material,
-          dimensions: formData.dimensions,
-          hardware: formData.hardware,
-          warranty: formData.warranty,
-          origin: "Agra Atelier, Uttar Pradesh, India",
-        },
-      });
-      showNotification(`Added "${formData.title}" to catalog.`);
+
+      if (!response.ok) throw new Error("Failed to save product to database");
+
+      if (editingProduct) {
+        updateProduct(editingProduct.id, productPayload);
+        showNotification(`Updated "${formData.title}" in database.`);
+      } else {
+        addProduct(productPayload);
+        showNotification(`Added "${formData.title}" to database.`);
+      }
+
+      setIsModalOpen(false);
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      alert("Error saving product. Please check console.");
     }
-
-    setIsModalOpen(false);
   };
-
   const handleDelete = (id: string, title: string) => {
     if (confirm(`Remove "${title}" permanently from inventory?`)) {
       deleteProduct(id);
