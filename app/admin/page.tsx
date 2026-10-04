@@ -287,18 +287,7 @@ const handleSubmitForm = async (e: React.FormEvent) => {
               <span>Add Creation</span>
             </button>
 
-            <button
-              onClick={() => {
-                if (confirm("Reset catalog and orders to default seed data?")) {
-                  resetToDefault();
-                  showNotification("Catalog and sample orders reset to defaults.");
-                }
-              }}
-              className="px-4 py-2.5 rounded-full bg-neutral-900 hover:bg-neutral-800 text-neutral-300 border border-neutral-700 text-xs font-semibold uppercase tracking-wider transition-colors flex items-center gap-1.5"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Reset Defaults</span>
-            </button>
+          
 
             <Link
               href="/"
