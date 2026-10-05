@@ -30,7 +30,18 @@ export default function HomePage() {
   const [sortOption, setSortOption] = useState<"featured" | "price-asc" | "price-desc" | "rating">("featured");
   const [guaranteeOpen, setGuaranteeOpen] = useState(false);
   const [returnPolicyOpen, setReturnPolicyOpen] = useState(false);
+const [shopifyProducts, setShopifyProducts] = useState<any[]>([]);
 
+useEffect(() => {
+  fetch('/api/shopify-product')
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        setShopifyProducts(data.products);
+      }
+    })
+    .catch((err) => console.error("Error loading products:", err));
+}, []);
   // Track visit telemetry
   useEffect(() => {
     fetch("/api/analytics", {
@@ -95,7 +106,31 @@ const categoryCounts = useMemo(() => {
                 </button>
               </div>
             </div>
-
+{/* Shopify Products Section */}
+<div className="max-w-7xl mx-auto px-4 py-8">
+  <h2 className="text-2xl font-bold mb-6 text-white">Shopify Products</h2>
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    {shopifyProducts.map((product: any) => (
+      <div key={product.id} className="border border-neutral-800 rounded-lg p-4 bg-neutral-900 shadow-sm">
+        {product.images?.edges?.[0]?.node?.url && (
+          <img 
+            src={product.images.edges[0].node.url} 
+            alt={product.images.edges[0].node.altText || product.title} 
+            className="w-full h-48 object-cover rounded-md mb-4"
+          />
+        )}
+        <h3 className="font-semibold text-lg mb-2 text-white">{product.title}</h3>
+        <p className="text-neutral-400 mb-4">
+          {product.priceRange?.minVariantPrice?.currencyCode}{" "}
+          {product.priceRange?.minVariantPrice?.amount}
+        </p>
+        <button className="w-full bg-white text-black py-2 rounded-md hover:bg-neutral-200 font-medium">
+          View Product
+        </button>
+      </div>
+    ))}
+  </div>
+</div>
             {/* Feature 2 */}
             <div className="flex items-center gap-4 p-4 rounded-xl bg-black/40 border border-amber-500/20">
               <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center shrink-0">
